@@ -7,7 +7,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGODB_URI);
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.error(err));
 
 const ticketSchema = new mongoose.Schema({
   name: String,
@@ -27,6 +30,10 @@ const ticketSchema = new mongoose.Schema({
 });
 
 const Ticket = mongoose.model('Ticket', ticketSchema);
+
+app.get('/', (req, res) => {
+  res.send('Hey this is my API running 🥳');
+});
 
 app.post('/tickets', async (req, res) => {
   const ticket = new Ticket(req.body);
