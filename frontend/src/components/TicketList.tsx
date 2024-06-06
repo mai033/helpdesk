@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../utils/apiConfig'; 
 
 type Ticket = {
   _id: string;
@@ -17,29 +18,27 @@ const TicketList = () => {
   const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null);
   const [responseMessage, setResponseMessage] = useState('');
 
-  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:4000';
-
   useEffect(() => {
     const fetchTickets = async () => {
-      const response = await fetch(`${apiUrl}/tickets`);
+      const response = await fetch(`${API_BASE_URL}/tickets`); 
       const data = await response.json();
       setTickets(data);
     };
     fetchTickets();
-  }, [apiUrl]);
+  }, []);
 
   const handleSelectTicket = async (id: string) => {
-    const response = await fetch(`${apiUrl}/tickets/${id}`);
+    const response = await fetch(`${API_BASE_URL}/tickets/${id}`); 
     const data = await response.json();
     setSelectedTicket(data);
-    setResponseMessage(''); 
+    setResponseMessage('');
   };
 
   const handleStatusChange = async (
     id: string,
     status: 'new' | 'in progress' | 'resolved'
   ) => {
-    const response = await fetch(`${apiUrl}/tickets/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/tickets/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +53,7 @@ const TicketList = () => {
   const handleResponse = async (id: string) => {
     if (!responseMessage.trim()) return;
 
-    const response = await fetch(`${apiUrl}/tickets/${id}/respond`, {
+    const response = await fetch(`${API_BASE_URL}/tickets/${id}/respond`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
