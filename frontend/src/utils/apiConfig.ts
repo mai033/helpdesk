@@ -1,5 +1,5 @@
-const LOCAL_API_BASE_URL = 'http://localhost:4000';
-const DEPLOYED_API_BASE_URL = 'https://helpdesk-lovat.vercel.app';
+const LOCAL_API_BASE_URL = import.meta.env.VITE_LOCAL_API_BASE_URL;
+const DEPLOYED_API_BASE_URL = import.meta.env.VITE_DEPLOYED_API_BASE_URL;
 
 export const API_BASE_URL =
   window.location.hostname === 'localhost'
